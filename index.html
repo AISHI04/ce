@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container__1 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+        }
+        .still {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: green;
+        }
+        .still1 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: red !important;
+        }
+        ul li {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            align-items: center;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        ul {
+            display: flex;
+            flex-wrap: wrap;
+            width: 70%; /* 10 * 30px + 10 * 1px border-left + 10 * 1px border-right */
+            padding: 0;
+            margin-top: 100px;
+            background-color: #fff;
+            align-items: center;
+            justify-content: space-between;
+            list-style-type: none;
+        }
+        li {
+            width: 200px;
+            height: 7%;
+            border-radius: 3px;
+            margin: 1%;
+            background: yellow;
+            border: 1px solid black;
+            box-sizing: border-box; /* Borderni o'lchamga kiritadi */
+        }
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .img img {
+            max-width: 300px;
+            max-height: 300px;
+        }
+        p {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+   <div class="container__1">
+        <ul id="listContainer"></ul>
+        <div class="container">
+            <div class="img"><img src="./1.jpg" alt=""></div>
+            <h1>Etno Aul</h1>
+            <button id="randomButton">G'olibni tanglash</button>
+            <p id="result"></p>
+        </div>
+   </div>
+    <script>
+        // Список имен
+        const names = [
+        "99 487 10 64"	, "94 056 44 59" , "94 937 88 77" , "95 727 50 60" , "90 999 65 65" , "93 164 00 74" , "93 573 71 14" , "93 068 27 64" , "94 769 60 06" , "	91 162 11 33" , "98 111 20 65" , "94 867 07 70" , "90 919 47 79" , "90 956 56 07" , "93 120 20 38" , "93 580 38 38" , "99 786 88 92" , "90 125 51 18" , "90 972 27 07", "90 009 40 70" , "93 092 90 09" , "	99 619 41 52" , "90 954 77 22"	, "90 186 00 55" , "93 562 74 34" , "93 523 32 76" , "94 620 58 98" , "93 374 65 96" , "93 331 54 15" , "94 315 15 51" , "93 113 51 70" , "93 618 19 00" , "98 335 80 89" , "99 929 46 32" , "99 003 40 60" , "90 965 16 36" , "93 591 60 63" , "99 848 22 51" , "97 720 27 02" , "93 788 17 71" , "99 891 51 15" , "99 918 32 88" , "99 873 70 20"	 , "90 094 14 78" , "90 958 35 91" , "93 197 77 77" , "90 115 50 70" , "90 970 95 52" , "99 033 81 22" , "97 157 71 77" , "33 433 43 33" , "90 906 37 30" , "99 300 11 91" , "94 922 22 00" , "90 980 31 41" , "90 098 69 84" , "93 528 39 00" , "99 874 73 54" , "90 914 30 11" , "99 929 59 95" , "95 888 27 71" , "95 070 00 10" , "99 049 72 00" , "90 125 51 18" , "94 620 58 98" ,"90 111 77 90" , "90 805 13 10" , "90 804 66 55" , "90 929 50 76" , "90 329 69 69" , "90 111 77 90" , "94 620 58 98" , "93 566 02 61" , "94 945 92 81" , "93 325 24 92" , "99 999 94 15"
+        ];
+
+        // li render
+        const ul = document.getElementById('listContainer');
+        for (let i = 0; i < names.length; i++) {
+            const li = document.createElement('li');
+            li.id = i;
+            li.textContent = names[i];
+            ul.appendChild(li);
+        }
+
+        let intervalId;
+
+        function generateRandomNumber() {
+            const previousLi = document.querySelector('.still');
+            if (previousLi) {
+                previousLi.classList.remove('still');
+            }
+            
+            const randomNumber = Math.floor(Math.random() * names.length);
+            const li = document.getElementById(randomNumber);
+            li.classList.add('still');
+            return randomNumber;
+        }
+
+        function startSelection() {
+            document.getElementById('result').textContent = '';
+            intervalId = setInterval(generateRandomNumber, 70);
+
+            setTimeout(() => {
+                clearInterval(intervalId);
+                const id = generateRandomNumber();
+                const li = document.getElementById(id);
+                li.classList.add('still1');
+                document.getElementById('result').textContent = `G'olibimiz: ${names[id]}`;
+            }, 5000);
+        }
+
+        document.getElementById('randomButton').addEventListener('click', startSelection);
+    </script>
+</body>
+</html>
